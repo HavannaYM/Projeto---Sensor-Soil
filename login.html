@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Sensor Soil</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600&family=Montserrat:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="login.css">
+</head>
+<body>
+    <div class="background-curve"></div>
+    <div class="login-container">
+        <header>
+            <div class="logo-area">
+                <img src="logo.png" alt="Logo" class="mini-logo">
+                <p class="brand-small">SENSOR SOIL</p>
+            </div>
+            <h1 class="main-title">MEU SENSOR SOIL</h1>
+            <p class="subtitle">Coloque seus dados para acessar</p>
+        </header>
+
+        <form class="login-form" id="loginForm">
+            <div class="input-group">
+                <span class="icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1f3d2b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                </span>
+                <input type="email" id="loginEmail" placeholder="E-mail" required>
+            </div>
+
+            <div class="input-group">
+                <span class="icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1f3d2b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                </span>
+                <input type="password" id="loginSenha" placeholder="Sua Senha" required>
+                <button type="button" class="toggle-password" onclick="togglePassword('loginSenha', 'eye-login')">
+                    <svg id="eye-login" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1f3d2b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                </button>
+            </div>
+
+            <button type="submit" class="btn-submit">ENTRAR</button>
+        </form>
+
+        <footer>
+            <p>Não possui uma conta? <a href="cadastro.html" class="link-create">Crie uma conta</a></p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

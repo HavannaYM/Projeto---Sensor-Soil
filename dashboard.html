@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Sensor Soil</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header Superior -->
+        <header class="main-header">
+            <div class="header-left">
+                <img src="logo.png" alt="Logo" class="dashboard-logo">
+                <div class="header-title">
+                    <span class="text-meu">MEU</span>
+                    <span class="text-brand">SENSOR SOIL</span>
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="connection-status">
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <svg class="icon-bluetooth" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6.5 6.5 17.5 17.5 12 23 12 1 17.5 6.5 6.5 17.5"></polyline></svg>
+                        <span class="dot-active"></span>
+                    </div>
+                    <span class="status-text-small">Equipamento conectado</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Barra de Navegação Superior -->
+        <nav class="top-nav">
+            <button class="nav-item" data-target="dashboard">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path><path d="M22 12A10 10 0 0 0 12 2v10z"></path></svg>
+            </button>
+            <button class="nav-item" data-target="reports">
+                <div class="nav-with-label">
+                    <span class="nav-label">RELATÓRIOS</span>
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                </div>
+            </button>
+            <button class="nav-item" data-target="monitoring">
+                <div class="nav-with-label">
+                    <span class="nav-label">MONITORAMENTO</span>
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                </div>
+            </button>
+            <button class="nav-item active" data-target="settings">
+                <div class="nav-with-label">
+                    <span class="nav-label">CONFIGURAÇÃO</span>
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33-1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                </div>
+            </button>
+        </nav>
+
+        <main class="content-area">
+            <!-- Dashboard Section -->
+            <section id="dashboard" class="view-section">
+                <div class="dashboard-cards">
+                    <!-- PH Card -->
+                    <div class="card">
+                        <h2 class="card-title">PH DO SOLO</h2>
+                        <div class="card-content">
+                            <div class="info-left">
+                                <span class="label">Nível de Acidez</span>
+                                <div class="gauge-container">
+                                    <svg viewBox="0 0 100 50" class="gauge-svg">
+                                        <path d="M10 45 A 40 40 0 0 1 90 45" stroke="#eee" stroke-width="8" fill="none" stroke-linecap="round"/>
+                                        <path id="ph-gauge-fill" d="M10 45 A 40 40 0 0 1 65 20" stroke="#5FAF4E" stroke-width="8" fill="none" stroke-linecap="round"/>
+                                        <line id="ph-needle" x1="50" y1="45" x2="70" y2="25" stroke="#333" stroke-width="2" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="info-right">
+                                <span class="value" id="ph-value">6.2</span>
+                                <span class="status status-brown">Ácido</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Acidez Card -->
+                    <div class="card">
+                        <h2 class="card-title">ACIDEZ</h2>
+                        <div class="card-content">
+                            <div class="info-left">
+                                <span class="label">Nível de Acido</span>
+                                <div class="thermometer-icon">
+                                    <svg width="40" height="80" viewBox="0 0 40 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <rect x="15" y="5" width="10" height="50" rx="5" fill="#E0E0E0"/>
+                                        <rect id="acid-fill" x="15" y="25" width="10" height="30" rx="5" fill="url(#acid-gradient)"/>
+                                        <circle cx="20" cy="65" r="12" fill="#D84A4A"/>
+                                        <defs>
+                                            <linearGradient id="acid-gradient" x1="20" y1="55" x2="20" y2="5" gradientUnits="userSpaceOnUse">
+                                                <stop offset="0" stop-color="#D84A4A"/>
+                                                <stop offset="1" stop-color="#FFD166"/>
+                                            </linearGradient>
+                                        </defs>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="info-right">
+                                <span class="value" id="acid-value">42%</span>
+                                <span class="status status-red">Elevada</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Umidade Card -->
+                    <div class="card">
+                        <h2 class="card-title">UMIDADE</h2>
+                        <div class="card-content">
+                            <div class="info-left">
+                                <span class="label">Teor de água</span>
+                                <div class="cloud-icon">
+                                    <svg width="80" height="50" viewBox="0 0 24 24" fill="#7CC7E8" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M17.5,19c-3.037,0-5.5-2.463-5.5-5.5c0-0.038,0.001-0.076,0.003-0.114C11.666,13.256,11.339,13.2,11,13.2c-2.209,0-4,1.791-4,4s1.791,4,4,4c0.166,0,0.329-0.01,0.489-0.03C11.821,21.616,12.385,22,13,22c1.105,0,2-0.895,2-2c0-0.037-0.001-0.073-0.003-0.109C15.656,19.95,16.313,20,17,20c1.657,0,3-1.343,3-3S18.657,14,17,14c-0.166,0-0.327,0.014-0.484,0.041C15.86,11.166,13.242,9,10,9C6.134,9,3,12.134,3,16c0,3.48,2.531,6.37,5.845,6.903C9.41,23.364,10.63,24,12,24c1.892,0,3.486-1.18,4.093-2.82C16.391,21.265,16.691,21.3,17,21.3c2.375,0,4.3-1.925,4.3-4.3S19.375,12.7,17,12.7c-0.21,0-0.414,0.015-0.613,0.044C15.882,9.88,13.192,8,10,8C5.582,8,2,11.582,2,16s3.582,8,8,8c0.443,0,0.873-0.037,1.29-0.108C12.176,24.63,13.518,25,15,25c2.761,0,5-2.239,5-5c0-0.166-0.01-0.331-0.031-0.492C21.319,18.847,22,17.506,22,16C22,13.239,19.761,11,17,11c-0.134,0-0.266,0.006-0.396,0.017C15.652,8.125,13.061,6,10,6C5.029,6,1,10.029,1,15s4.029,9,9,9c0.354,0,0.701-0.021,1.042-0.062C12.029,25.441,13.384,26,15,26c3.314,0,6-2.686,6-6c0-0.16-0.007-0.318-0.021-0.475C22.259,18.855,23,17.51,23,16C23,12.686,20.314,10,17,10c-0.144,0-0.286,0.006-0.426,0.018C15.545,7.11,13.013,5,10,5C4.477,5,0,9.477,0,15s4.477,10,10,10c0.263,0,0.522-0.011,0.778-0.032C11.834,26.257,13.308,27,15,27c3.866,0,7-3.134,7-7c0-0.151-0.005-0.301-0.015-0.45C23.189,18.868,24,17.527,24,16C24,12.134,20.866,9,17,9z" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="info-right">
+                                <span class="value" id="humidity-value">88%</span>
+                                <span class="status status-brown">Muito Alta</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Reports Section (Now empty as requested) -->
+            <section id="reports" class="view-section">
+                <div class="card" style="margin: 20px 16px;">
+                    <h2 class="card-title">Relatórios</h2>
+                    <p style="text-align: center; color: var(--text-gray);">Selecione a aba MONITORAMENTO para ver as tendências.</p>
+                </div>
+            </section>
+
+            <!-- Monitoramento Section (Empty as requested) -->
+            <section id="monitoring" class="view-section">
+                <div class="card" style="margin: 20px 16px;">
+                    <h2 class="card-title">Monitoramento</h2>
+                    <p style="text-align: center; color: var(--text-gray);">Nenhum sensor ativo nesta seção no momento.</p>
+                </div>
+            </section>
+
+            <section id="history" class="view-section">
+                <h2 class="view-title">Histórico de Medições</h2>
+                <div class="history-list">
+                    <!-- History items can go here if needed -->
+                    <p class="empty-msg">Nenhum registro recente.</p>
+                </div>
+            </section>
+
+            <!-- Settings Section (High-Fidelity Configuration) -->
+            <section id="settings" class="view-section active">
+                <!-- Gerência Sensores -->
+                <div class="section-container">
+                    <h3 class="section-title">GERÊNCIA SENSORES</h3>
+                    <div class="card sensor-card">
+                        <div class="sensor-info">
+                            <div class="sensor-icon-bg">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="#2E7D32"><path d="M12,2L4.5,20.29L5.21,21L12,18L18.79,21L19.5,20.29L12,2Z"/></svg>
+                            </div>
+                            <div class="sensor-text">
+                                <span class="sensor-name">Sensor A</span>
+                                <span class="sensor-id">ID: SS-01</span>
+                            </div>
+                        </div>
+                        <div class="sensor-status">
+                            <div class="battery-status">
+                                <svg width="24" height="12" viewBox="0 0 24 12" fill="none">
+                                    <rect x="0.5" y="0.5" width="20" height="11" rx="1.5" stroke="#B8B8B8"/>
+                                    <rect x="2" y="2" width="14" height="8" rx="1" fill="#6BC46D"/>
+                                    <path d="M21.5 4V8" stroke="#B8B8B8" stroke-width="2" stroke-linecap="round"/>
+                                </svg>
+                                <span>80%</span>
+                            </div>
+                            <div class="signal-status">
+                                <div class="signal-bar bar-1 active"></div>
+                                <div class="signal-bar bar-2 active"></div>
+                                <div class="signal-bar bar-3 active"></div>
+                                <div class="signal-bar bar-4 active"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn-bege btn-full">+ ADICIONAR NOVO SENSOR</button>
+                </div>
+
+                <!-- Parâmetros de Solo -->
+                <div class="section-container">
+                    <h3 class="section-title">PARÂMETROS DE SOLO E CULTIVO</h3>
+                    <div class="card dropdown-card">
+                        <div class="dropdown-content">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="#2E7D32"><path d="M17,8C15.34,8 14,9.34 14,11C14,12.66 15.34,14 17,14C18.66,14 20,12.66 20,11C20,9.34 18.66,8 17,8M7,2V4H9V10C9,12.21 7.21,14 5,14V16H19V14C16.79,14 15,12.21 15,10V4H17V2H7M11,4H13V10C13,11.1 12.1,12 11,12C9.9,12 9,11.1 9,10V4H11Z"/></svg>
+                            <span class="dropdown-label">Cultivo: <strong>Soja</strong></span>
+                        </div>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    </div>
+                    <div class="card slider-card">
+                        <div class="slider-header">
+                            <span class="slider-label">Frequência de Leitura:</span>
+                            <div class="value-box">60 min</div>
+                        </div>
+                        <div class="slider-container">
+                            <input type="range" min="1" max="120" value="60" class="custom-slider">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sistemas de Alertas -->
+                <div class="section-container">
+                    <h3 class="section-title">SISTEMAS DE ALERTAS</h3>
+                    <div class="card alert-master-card">
+                        <span>Alertas Críticos (pH e Compactação)</span>
+                        <label class="switch-ios">
+                            <input type="checkbox" checked>
+                            <span class="slider-ios"></span>
+                        </label>
+                    </div>
+                    <div class="alert-grid">
+                        <div class="alert-row">
+                            <div class="card alert-mini-card">
+                                <span>pH</span>
+                                <label class="switch-ios">
+                                    <input type="checkbox" checked>
+                                    <span class="slider-ios"></span>
+                                </label>
+                            </div>
+                            <div class="card alert-input-card">
+                                <span>pH</span>
+                                <div class="input-box">4.5</div>
+                            </div>
+                        </div>
+                        <div class="alert-row">
+                            <div class="card alert-mini-card">
+                                <span>Umidade</span>
+                                <label class="switch-ios">
+                                    <input type="checkbox">
+                                    <span class="slider-ios"></span>
+                                </label>
+                            </div>
+                            <div class="card alert-input-card">
+                                <span>Umidade</span>
+                                <div class="input-box empty"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dados e Exportação -->
+                <div class="section-container">
+                    <h3 class="section-title">DADOS E EXPORTAÇÃO</h3>
+                    <div class="card export-card">
+                        <div class="export-info">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                            <span>Exportar Dados</span>
+                        </div>
+                        <button class="btn-csv">CSV</button>
+                    </div>
+                    <button class="btn-bege btn-full">LIMPAR HISTÓRICO ANTIGO</button>
+                    <button class="btn-green-save btn-full">SALVAR ALTERAÇÃO</button>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="dashboard.js"></script>
+</body>
+</html>
