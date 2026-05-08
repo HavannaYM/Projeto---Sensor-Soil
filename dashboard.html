@@ -66,11 +66,22 @@
                         <div class="card-content">
                             <div class="info-left">
                                 <span class="label">Nível de Acidez</span>
-                                <div class="gauge-container">
-                                    <svg viewBox="0 0 100 50" class="gauge-svg">
-                                        <path d="M10 45 A 40 40 0 0 1 90 45" stroke="#eee" stroke-width="8" fill="none" stroke-linecap="round"/>
-                                        <path id="ph-gauge-fill" d="M10 45 A 40 40 0 0 1 65 20" stroke="#5FAF4E" stroke-width="8" fill="none" stroke-linecap="round"/>
-                                        <line id="ph-needle" x1="50" y1="45" x2="70" y2="25" stroke="#333" stroke-width="2" />
+                            </div>
+                            <div class="info-center">
+                                <div class="gauge-container" style="width: 80px; height: 40px; position: relative;">
+                                    <svg viewBox="0 0 100 50" class="gauge-svg" style="width: 100%; height: 100%; overflow: visible;">
+                                        <defs>
+                                            <linearGradient id="gauge-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+                                                <stop offset="0%" stop-color="#4CAF50" />
+                                                <stop offset="33%" stop-color="#8BC34A" />
+                                                <stop offset="66%" stop-color="#FF9800" />
+                                                <stop offset="100%" stop-color="#F44336" />
+                                            </linearGradient>
+                                        </defs>
+                                        <path d="M10 45 A 40 40 0 0 1 90 45" stroke="url(#gauge-grad)" stroke-width="12" fill="none" stroke-linecap="round"/>
+                                        <!-- Needle at approx 75% -->
+                                        <circle cx="50" cy="45" r="4" fill="#333" />
+                                        <line id="ph-needle" x1="50" y1="45" x2="80" y2="15" stroke="#333" stroke-width="3" stroke-linecap="round" />
                                     </svg>
                                 </div>
                             </div>
@@ -87,6 +98,8 @@
                         <div class="card-content">
                             <div class="info-left">
                                 <span class="label">Nível de Acido</span>
+                            </div>
+                            <div class="info-center">
                                 <div class="thermometer-icon">
                                     <svg width="40" height="80" viewBox="0 0 40 80" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <rect x="15" y="5" width="10" height="50" rx="5" fill="#E0E0E0"/>
@@ -114,6 +127,8 @@
                         <div class="card-content">
                             <div class="info-left">
                                 <span class="label">Teor de água</span>
+                            </div>
+                            <div class="info-center">
                                 <div class="cloud-icon">
                                     <svg width="80" height="50" viewBox="0 0 24 24" fill="#7CC7E8" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M17.5,19c-3.037,0-5.5-2.463-5.5-5.5c0-0.038,0.001-0.076,0.003-0.114C11.666,13.256,11.339,13.2,11,13.2c-2.209,0-4,1.791-4,4s1.791,4,4,4c0.166,0,0.329-0.01,0.489-0.03C11.821,21.616,12.385,22,13,22c1.105,0,2-0.895,2-2c0-0.037-0.001-0.073-0.003-0.109C15.656,19.95,16.313,20,17,20c1.657,0,3-1.343,3-3S18.657,14,17,14c-0.166,0-0.327,0.014-0.484,0.041C15.86,11.166,13.242,9,10,9C6.134,9,3,12.134,3,16c0,3.48,2.531,6.37,5.845,6.903C9.41,23.364,10.63,24,12,24c1.892,0,3.486-1.18,4.093-2.82C16.391,21.265,16.691,21.3,17,21.3c2.375,0,4.3-1.925,4.3-4.3S19.375,12.7,17,12.7c-0.21,0-0.414,0.015-0.613,0.044C15.882,9.88,13.192,8,10,8C5.582,8,2,11.582,2,16s3.582,8,8,8c0.443,0,0.873-0.037,1.29-0.108C12.176,24.63,13.518,25,15,25c2.761,0,5-2.239,5-5c0-0.166-0.01-0.331-0.031-0.492C21.319,18.847,22,17.506,22,16C22,13.239,19.761,11,17,11c-0.134,0-0.266,0.006-0.396,0.017C15.652,8.125,13.061,6,10,6C5.029,6,1,10.029,1,15s4.029,9,9,9c0.354,0,0.701-0.021,1.042-0.062C12.029,25.441,13.384,26,15,26c3.314,0,6-2.686,6-6c0-0.16-0.007-0.318-0.021-0.475C22.259,18.855,23,17.51,23,16C23,12.686,20.314,10,17,10c-0.144,0-0.286,0.006-0.426,0.018C15.545,7.11,13.013,5,10,5C4.477,5,0,9.477,0,15s4.477,10,10,10c0.263,0,0.522-0.011,0.778-0.032C11.834,26.257,13.308,27,15,27c3.866,0,7-3.134,7-7c0-0.151-0.005-0.301-0.015-0.45C23.189,18.868,24,17.527,24,16C24,12.134,20.866,9,17,9z" />
@@ -129,19 +144,194 @@
                 </div>
             </section>
 
-            <!-- Reports Section (Now empty as requested) -->
+            <!-- Reports Section -->
             <section id="reports" class="view-section">
+                <!-- Card Principal -->
                 <div class="card" style="margin: 20px 16px;">
-                    <h2 class="card-title">Relatórios</h2>
-                    <p style="text-align: center; color: var(--text-gray);">Selecione a aba MONITORAMENTO para ver as tendências.</p>
+                    <h2 class="card-title" style="color: #111; font-size: 1.1rem; font-weight: 800;">Relatórios</h2>
+                    <p style="text-align: center; color: var(--text-gray); font-size: 0.95rem; font-weight: 500;">Selecione a aba MONITORAMENTO para ver as tendências.</p>
+                </div>
+
+                <!-- Área de Criação de Relatório -->
+                <div class="card" style="margin: 0 16px 20px;">
+                    <h3 class="section-title">CRIAR NOVO RELATÓRIO</h3>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Nome do relatório</label>
+                        <input type="text" class="form-input" id="relatorio-nome" placeholder="Ex: Relatório Semanal">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Tipo de relatório</label>
+                        <select class="form-select" id="relatorio-tipo">
+                            <option>Resumo Analítico</option>
+                            <option>Completo</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Período</label>
+                        <select class="form-select" id="relatorio-periodo">
+                            <option>Última semana</option>
+                            <option>Último mês</option>
+                            <option>Último ano</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Parâmetro monitorado</label>
+                        <select class="form-select" id="relatorio-parametro">
+                            <option>pH</option>
+                            <option>Umidade</option>
+                            <option>Temperatura</option>
+                            <option>Nutrientes</option>
+                        </select>
+                    </div>
+
+                    <button class="btn-primary-green btn-full" id="btn-gerar-relatorio">GERAR RELATÓRIO</button>
+                </div>
+
+                <!-- Visualização do Relatório (Hidden initially) -->
+                <div class="card" id="report-preview" style="margin: 0 16px 20px; display: none;">
+                    <h3 class="section-title">VISUALIZAÇÃO DO RELATÓRIO</h3>
+                    <div class="report-content">
+                        <p><strong>Nome:</strong> <span id="preview-name">-</span></p>
+                        <p><strong>Data:</strong> <span id="preview-date">-</span></p>
+                        <p><strong>Parâmetro:</strong> <span id="preview-param">-</span></p>
+                        <div class="report-dummy-chart">
+                            <svg viewBox="0 0 100 30" style="width: 100%; height: 60px; background: #fff; border-radius: 6px; margin-top: 10px; border: 1px solid #eee;">
+                                <!-- Simple trend line -->
+                                <polyline fill="none" stroke="#2E7D32" stroke-width="2" points="0,25 20,15 40,20 60,10 80,18 100,5"/>
+                                <circle cx="20" cy="15" r="1.5" fill="#2E7D32"/>
+                                <circle cx="40" cy="20" r="1.5" fill="#2E7D32"/>
+                                <circle cx="60" cy="10" r="1.5" fill="#2E7D32"/>
+                                <circle cx="80" cy="18" r="1.5" fill="#2E7D32"/>
+                                <circle cx="100" cy="5" r="1.5" fill="#2E7D32"/>
+                            </svg>
+                        </div>
+                    </div>
+                    
+                    <button id="btn-download-pdf" class="btn-primary-green btn-full" style="margin-top: 15px; display: flex; justify-content: center; align-items: center; gap: 8px;">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                        BAIXAR PDF
+                    </button>
                 </div>
             </section>
 
-            <!-- Monitoramento Section (Empty as requested) -->
+            <!-- Monitoramento Section -->
             <section id="monitoring" class="view-section">
-                <div class="card" style="margin: 20px 16px;">
-                    <h2 class="card-title">Monitoramento</h2>
-                    <p style="text-align: center; color: var(--text-gray);">Nenhum sensor ativo nesta seção no momento.</p>
+                <!-- Filtros -->
+                <div class="filters-card">
+                    <div class="filter-group">
+                        <label class="filter-label">Período</label>
+                        <select class="filter-select">
+                            <option>Último Mês</option>
+                            <option>Última Semana</option>
+                            <option>Último Ano</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label class="filter-label">Parâmestro</label>
+                        <select class="filter-select">
+                            <option>pH</option>
+                            <option>Umidade</option>
+                            <option>Temperatura</option>
+                            <option>Nutrientes</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Tendência de pH -->
+                <div class="card trend-card">
+                    <h2 class="card-title">Tendência de pH</h2>
+                    <div class="chart-container">
+                        <svg viewBox="0 0 350 160" class="trend-chart" preserveAspectRatio="none">
+                            <!-- Horizontal Grids (0 to 7) -->
+                            <line x1="40" y1="10" x2="340" y2="10" stroke="var(--chart-grid)" stroke-width="1" />
+                            <line x1="40" y1="30" x2="340" y2="30" stroke="var(--chart-grid)" stroke-width="1" />
+                            <line x1="40" y1="50" x2="340" y2="50" stroke="var(--chart-grid)" stroke-width="1" />
+                            <line x1="40" y1="70" x2="340" y2="70" stroke="var(--chart-grid)" stroke-width="1" />
+                            <line x1="40" y1="90" x2="340" y2="90" stroke="var(--chart-grid)" stroke-width="1" />
+                            <line x1="40" y1="110" x2="340" y2="110" stroke="var(--chart-grid)" stroke-width="1" />
+                            <line x1="40" y1="130" x2="340" y2="130" stroke="var(--chart-grid)" stroke-width="1" />
+                            <line x1="40" y1="150" x2="340" y2="150" stroke="var(--chart-grid)" stroke-width="1" />
+
+                            <!-- Y-axis Labels -->
+                            <text x="30" y="14" class="chart-text" text-anchor="end">7</text>
+                            <text x="30" y="34" class="chart-text" text-anchor="end">6</text>
+                            <text x="30" y="54" class="chart-text" text-anchor="end">5</text>
+                            <text x="30" y="74" class="chart-text" text-anchor="end">4</text>
+                            <text x="30" y="94" class="chart-text" text-anchor="end">3</text>
+                            <text x="30" y="114" class="chart-text" text-anchor="end">2</text>
+                            <text x="30" y="134" class="chart-text" text-anchor="end">1</text>
+                            <text x="30" y="154" class="chart-text" text-anchor="end">0</text>
+
+                            <!-- Data Line (Example data points roughly matching the image) -->
+                            <!-- Values: 4, 3.5, 5, 6, 6.5 -->
+                            <!-- X coords: 70, 130, 190, 250, 310 -->
+                            <path class="chart-line" d="M70 70 L130 80 L190 50 L250 30 L310 20" />
+
+                            <!-- Data Points -->
+                            <circle cx="70" cy="70" r="4" class="chart-point" />
+                            <circle cx="130" cy="80" r="4" class="chart-point" />
+                            <circle cx="190" cy="50" r="4" class="chart-point" />
+                            <circle cx="250" cy="30" r="4" class="chart-point" />
+                            <circle cx="310" cy="20" r="4" class="chart-point" />
+                        </svg>
+                    </div>
+                    <!-- X-axis Labels (HTML for better positioning) -->
+                    <div class="chart-x-axis">
+                        <span>Jan</span>
+                        <span>Fev</span>
+                        <span>Mar</span>
+                        <span>Abril</span>
+                        <span>Maio</span>
+                    </div>
+                </div>
+
+                <!-- Tendência de Umidade -->
+                <div class="card trend-card">
+                    <h2 class="card-title" style="margin-bottom: 5px;">Tendência de Umidade</h2>
+                    <div class="chart-subtitle">%</div>
+                    <div class="chart-container">
+                        <svg viewBox="0 0 350 130" class="trend-chart" preserveAspectRatio="none">
+                            <!-- Horizontal Grids (0 to 100 step 20) -->
+                            <line x1="40" y1="10" x2="340" y2="10" stroke="var(--chart-grid)" stroke-width="1" />
+                            <line x1="40" y1="34" x2="340" y2="34" stroke="var(--chart-grid)" stroke-width="1" />
+                            <line x1="40" y1="58" x2="340" y2="58" stroke="var(--chart-grid)" stroke-width="1" />
+                            <line x1="40" y1="82" x2="340" y2="82" stroke="var(--chart-grid)" stroke-width="1" />
+                            <line x1="40" y1="106" x2="340" y2="106" stroke="var(--chart-grid)" stroke-width="1" />
+                            <line x1="40" y1="130" x2="340" y2="130" stroke="var(--chart-grid)" stroke-width="1" />
+
+                            <!-- Y-axis Labels -->
+                            <text x="30" y="14" class="chart-text" text-anchor="end">100</text>
+                            <text x="30" y="38" class="chart-text" text-anchor="end">80</text>
+                            <text x="30" y="62" class="chart-text" text-anchor="end">60</text>
+                            <text x="30" y="86" class="chart-text" text-anchor="end">40</text>
+                            <text x="30" y="110" class="chart-text" text-anchor="end">20</text>
+                            <text x="30" y="134" class="chart-text" text-anchor="end">0</text>
+
+                            <!-- Data Line (Example data points roughly matching the image) -->
+                            <!-- Values: 50, 45, 60, 70, 90 -->
+                            <!-- X coords: 70, 130, 190, 250, 310 -->
+                            <path class="chart-line" d="M70 70 L130 76 L190 58 L250 46 L310 22" />
+
+                            <!-- Data Points -->
+                            <circle cx="70" cy="70" r="4" class="chart-point" />
+                            <circle cx="130" cy="76" r="4" class="chart-point" />
+                            <circle cx="190" cy="58" r="4" class="chart-point" />
+                            <circle cx="250" cy="46" r="4" class="chart-point" />
+                            <circle cx="310" cy="22" r="4" class="chart-point" />
+                        </svg>
+                    </div>
+                    <!-- X-axis Labels -->
+                    <div class="chart-x-axis">
+                        <span>Jan</span>
+                        <span>Fev</span>
+                        <span>Mar</span>
+                        <span>Abril</span>
+                        <span>Maio</span>
+                    </div>
                 </div>
             </section>
 
@@ -185,7 +375,7 @@
                             </div>
                         </div>
                     </div>
-                    <button class="btn-bege btn-full">+ ADICIONAR NOVO SENSOR</button>
+                    <button id="btn-add-sensor" class="btn-bege btn-full">+ ADICIONAR NOVO SENSOR</button>
                 </div>
 
                 <!-- Parâmetros de Solo -->
@@ -259,7 +449,7 @@
                         </div>
                         <button class="btn-csv">CSV</button>
                     </div>
-                    <button class="btn-bege btn-full">LIMPAR HISTÓRICO ANTIGO</button>
+                    <button id="btn-clear-history" class="btn-bege btn-full">LIMPAR HISTÓRICO ANTIGO</button>
                     <button class="btn-green-save btn-full">SALVAR ALTERAÇÃO</button>
                 </div>
             </section>

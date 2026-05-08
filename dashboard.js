@@ -163,6 +163,91 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Report Generation Logic
+    const btnGerar = document.getElementById('btn-gerar-relatorio');
+    const reportPreview = document.getElementById('report-preview');
+    
+    if (btnGerar && reportPreview) {
+        btnGerar.addEventListener('click', () => {
+            const nomeInput = document.getElementById('relatorio-nome');
+            const paramSelect = document.getElementById('relatorio-parametro');
+            
+            const nameToSet = nomeInput.value.trim() !== '' ? nomeInput.value : 'Relatório Sem Nome';
+            const paramToSet = paramSelect.options[paramSelect.selectedIndex].text;
+            
+            const dateStr = new Date().toLocaleDateString('pt-BR');
+            
+            // Add a small loading effect
+            btnGerar.textContent = 'GERANDO...';
+            btnGerar.style.opacity = '0.7';
+            
+            setTimeout(() => {
+                btnGerar.textContent = 'GERAR RELATÓRIO';
+                btnGerar.style.opacity = '1';
+                
+                document.getElementById('preview-name').textContent = nameToSet;
+                document.getElementById('preview-date').textContent = dateStr;
+                document.getElementById('preview-param').textContent = paramToSet;
+                
+                reportPreview.style.display = 'block';
+                // Scroll to preview smoothly
+                reportPreview.scrollIntoView({ behavior: 'smooth', block: 'end' });
+            }, 800);
+        });
+    }
+
+    const btnDownloadPdf = document.getElementById('btn-download-pdf');
+    if (btnDownloadPdf) {
+        btnDownloadPdf.addEventListener('click', () => {
+            alert('Download iniciado! O seu arquivo PDF de relatório está sendo baixado.');
+        });
+    }
+
+    // Monitoramento Filter Logic
+    const filterSelects = document.querySelectorAll('.filter-select');
+    const trendCards = document.querySelectorAll('.trend-card');
+    
+    filterSelects.forEach(select => {
+        select.addEventListener('change', () => {
+            trendCards.forEach(card => {
+                card.style.opacity = '0.3';
+                setTimeout(() => {
+                    card.style.opacity = '1';
+                }, 600);
+            });
+        });
+    });
+
+    // Configurações - Adicionar Sensor
+    const btnAddSensor = document.getElementById('btn-add-sensor');
+    if (btnAddSensor) {
+        btnAddSensor.addEventListener('click', () => {
+            const id = prompt('Digite o ID do novo sensor a ser adicionado:');
+            if (id) {
+                alert(`Sensor ${id} emparelhado e adicionado com sucesso ao seu sistema.`);
+            }
+        });
+    }
+
+    // Configurações - Limpar Histórico
+    const btnClearHistory = document.getElementById('btn-clear-history');
+    if (btnClearHistory) {
+        btnClearHistory.addEventListener('click', () => {
+            const confirmar = confirm('Atenção! Você deseja realmente apagar todo o histórico de dados de parâmetros do solo? Esta ação não pode ser desfeita.');
+            if (confirmar) {
+                alert('O histórico de medições foi apagado.');
+            }
+        });
+    }
+
+    // Configurações - Exportar Dados
+    const btnCsv = document.querySelector('.btn-csv');
+    if (btnCsv) {
+        btnCsv.addEventListener('click', () => {
+            alert('Gerando planilhas de dados. O download do arquivo .CSV iniciará em instantes.');
+        });
+    }
+
     // Initial render for active view
     if (document.getElementById('monitoring') && document.getElementById('monitoring').classList.contains('active')) {
         renderAllCharts();
