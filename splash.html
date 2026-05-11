@@ -13,28 +13,37 @@
 
 <body>
     <div class="background-curve"></div>
-    <div class="splash-container">
+
+    <!-- Splash com Vídeo MP4 -->
+    <div class="splash-container" id="video-splash">
+        <div class="video-wrapper">
+            <video id="splash-video" src="splash.mp4" autoplay muted playsinline preload="auto"></video>
+        </div>
+    </div>
+
+    <!-- Fallback: Splash com SVG animado (exibido se o vídeo não carregar) -->
+    <div class="splash-container hidden" id="svg-splash">
         <div class="logo-wrapper">
             <svg viewBox="0 0 400 400" class="leaf-svg" xmlns="http://www.w3.org/2000/svg">
                 <g fill="none" stroke-linecap="round" stroke-linejoin="round">
                     <!-- Central Stem (Galho) -->
                     <path d="M200 360 L200 100" stroke="#4CAF50" stroke-width="6" />
 
-                    <!-- Segment 1: Bottom Left (Separated) -->
+                    <!-- Segment 1: Bottom Left -->
                     <path id="leaf-1" class="leaf-segment" d="M190 320 Q110 300 110 240 L185 270 Z" fill="#4CAF50" />
 
-                    <!-- Segment 2: Bottom Right (Separated) -->
+                    <!-- Segment 2: Bottom Right -->
                     <path id="leaf-2" class="leaf-segment" d="M210 320 Q290 300 290 240 L215 270 Z" fill="#4CAF50" />
 
-                    <!-- Segment 3: Middle Left (Separated) -->
+                    <!-- Segment 3: Middle Left -->
                     <path id="leaf-3" class="leaf-segment" d="M192 260 L120 230 Q130 160 165 130 L192 190 Z"
                         fill="#4CAF50" />
 
-                    <!-- Segment 4: Middle Right (Separated) -->
+                    <!-- Segment 4: Middle Right -->
                     <path id="leaf-4" class="leaf-segment" d="M208 260 L280 230 Q270 160 235 130 L208 190 Z"
                         fill="#4CAF50" />
 
-                    <!-- Segment 5: Top Tip (Separated) -->
+                    <!-- Segment 5: Top Tip -->
                     <path id="leaf-5" class="leaf-segment" d="M200 115 L170 145 Q200 80 230 145 Z" fill="#4CAF50" />
                 </g>
             </svg>
@@ -43,9 +52,43 @@
     </div>
 
     <script>
+        const video = document.getElementById('splash-video');
+        const videoSplash = document.getElementById('video-splash');
+        const svgSplash = document.getElementById('svg-splash');
+
+        let redirected = false;
+
+        function redirect() {
+            if (!redirected) {
+                redirected = true;
+                window.location.href = 'index.html';
+            }
+        }
+
+        // Quando o vídeo terminar, redireciona
+        video.addEventListener('ended', redirect);
+
+        // Se o vídeo falhar ao carregar, exibe o fallback SVG
+        video.addEventListener('error', () => {
+            videoSplash.classList.add('hidden');
+            svgSplash.classList.remove('hidden');
+            // Redireciona após 4s no fallback
+            setTimeout(redirect, 4000);
+        });
+
+        // Se o vídeo não carregar em 500ms, tenta o fallback
+        video.addEventListener('loadeddata', () => {
+            // Vídeo carregou OK — não faz nada, só aguarda 'ended'
+        });
+
+        // Segurança: se o arquivo não existir ou demorar, cai no fallback
         setTimeout(() => {
-            window.location.href = 'index.html';
-        }, 6000);
+            if (video.readyState === 0) {
+                videoSplash.classList.add('hidden');
+                svgSplash.classList.remove('hidden');
+                setTimeout(redirect, 4000);
+            }
+        }, 800);
     </script>
 </body>
 

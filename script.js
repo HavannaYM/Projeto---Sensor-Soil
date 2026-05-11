@@ -95,9 +95,8 @@ document.addEventListener('DOMContentLoaded', () => {
             btn.disabled = true;
 
             setTimeout(() => {
-                alert(`Bem-vindo, ${storedUser.nome}! Login realizado com sucesso.`);
-                window.location.href = 'dashboard.html';
-            }, 1500);
+                window.location.href = 'intro.html';
+            }, 1000);
         });
     }
 });

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sensor Soil - Bem-vindo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="intro.css">
+</head>
+<body>
+
+    <div class="background-curve"></div>
+
+    <!-- Intro com Vídeo MP4 (pós-login) -->
+    <div class="intro-container" id="video-intro">
+        <div class="video-wrapper">
+            <video id="intro-video" src="splash.mp4" autoplay muted playsinline preload="auto"></video>
+        </div>
+    </div>
+
+    <!-- Fallback: animação SVG caso o vídeo não carregue -->
+    <div class="intro-container hidden" id="svg-intro">
+        <div class="logo-wrapper">
+            <svg viewBox="0 0 400 400" class="leaf-svg" xmlns="http://www.w3.org/2000/svg">
+                <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M200 360 L200 100" stroke="#015d01" stroke-width="6" />
+                    <path id="leaf-1" class="leaf-segment" d="M190 320 Q110 300 110 240 L185 270 Z" fill="#015d01" />
+                    <path id="leaf-2" class="leaf-segment" d="M210 320 Q290 300 290 240 L215 270 Z" fill="#015d01" />
+                    <path id="leaf-3" class="leaf-segment" d="M192 260 L120 230 Q130 160 165 130 L192 190 Z" fill="#015d01" />
+                    <path id="leaf-4" class="leaf-segment" d="M208 260 L280 230 Q270 160 235 130 L208 190 Z" fill="#015d01" />
+                    <path id="leaf-5" class="leaf-segment" d="M200 115 L170 145 Q200 80 230 145 Z" fill="#015d01" />
+                </g>
+            </svg>
+        </div>
+        <h1 class="brand-name">SENSOR SOIL</h1>
+        <p class="welcome-msg" id="welcome-text"></p>
+    </div>
+
+    <script>
+        // Pega o nome do usuário salvo no login
+        const storedUser = JSON.parse(localStorage.getItem('sensor_soil_user'));
+        const welcomeText = document.getElementById('welcome-text');
+        if (storedUser && welcomeText) {
+            welcomeText.textContent = `Bem-vindo, ${storedUser.nome}!`;
+        }
+
+        const video    = document.getElementById('intro-video');
+        const videoDiv = document.getElementById('video-intro');
+        const svgDiv   = document.getElementById('svg-intro');
+        let redirected = false;
+
+        function goToDashboard() {
+            if (!redirected) {
+                redirected = true;
+                // Fade out suave antes de redirecionar
+                document.body.style.transition = 'opacity 0.5s ease';
+                document.body.style.opacity = '0';
+                setTimeout(() => {
+                    window.location.href = 'dashboard.html';
+                }, 500);
+            }
+        }
+
+        // Redireciona ao fim do vídeo
+        video.addEventListener('ended', goToDashboard);
+
+        // Fallback: vídeo falhou → mostra SVG e redireciona após 3.5s
+        video.addEventListener('error', () => {
+            videoDiv.classList.add('hidden');
+            svgDiv.classList.remove('hidden');
+            setTimeout(goToDashboard, 3500);
+        });
+
+        // Segurança: se o arquivo não existir (readyState 0 após 800ms)
+        setTimeout(() => {
+            if (video.readyState === 0) {
+                videoDiv.classList.add('hidden');
+                svgDiv.classList.remove('hidden');
+                setTimeout(goToDashboard, 3500);
+            }
+        }, 800);
+    </script>
+</body>
+</html>
