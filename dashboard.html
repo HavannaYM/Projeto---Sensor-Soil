@@ -8,6 +8,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="dashboard.css">
+    <!-- Bibliotecas para PDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 <body>
     <div class="app-container">
@@ -79,9 +82,9 @@
                                             </linearGradient>
                                         </defs>
                                         <path d="M10 45 A 40 40 0 0 1 90 45" stroke="url(#gauge-grad)" stroke-width="12" fill="none" stroke-linecap="round"/>
-                                        <!-- Needle at approx 75% -->
+                                        <!-- Needle starts pointing left (pH 0) -->
                                         <circle cx="50" cy="45" r="4" fill="#333" />
-                                        <line id="ph-needle" x1="50" y1="45" x2="80" y2="15" stroke="#333" stroke-width="3" stroke-linecap="round" />
+                                        <line id="ph-needle" x1="50" y1="45" x2="25" y2="45" stroke="#333" stroke-width="3" stroke-linecap="round" />
                                     </svg>
                                 </div>
                             </div>
@@ -231,7 +234,7 @@
                         </select>
                     </div>
                     <div class="filter-group">
-                        <label class="filter-label">Parâmestro</label>
+                        <label class="filter-label">Parâmetro</label>
                         <select class="filter-select">
                             <option>pH</option>
                             <option>Umidade</option>
@@ -266,17 +269,17 @@
                             <text x="30" y="134" class="chart-text" text-anchor="end">1</text>
                             <text x="30" y="154" class="chart-text" text-anchor="end">0</text>
 
-                            <!-- Data Line (Example data points roughly matching the image) -->
-                            <!-- Values: 4, 3.5, 5, 6, 6.5 -->
-                            <!-- X coords: 70, 130, 190, 250, 310 -->
-                            <path class="chart-line" d="M70 70 L130 80 L190 50 L250 30 L310 20" />
-
-                            <!-- Data Points -->
-                            <circle cx="70" cy="70" r="4" class="chart-point" />
-                            <circle cx="130" cy="80" r="4" class="chart-point" />
-                            <circle cx="190" cy="50" r="4" class="chart-point" />
-                            <circle cx="250" cy="30" r="4" class="chart-point" />
-                            <circle cx="310" cy="20" r="4" class="chart-point" />
+                            <!-- Bar Chart (Matching image values: 5, 4, 7, 6, 4.5) -->
+                            <!-- Jan: 5.0 -->
+                            <rect x="50" y="50" width="40" height="100" rx="8" class="chart-bar" />
+                            <!-- Fev: 4.0 -->
+                            <rect x="110" y="70" width="40" height="80" rx="8" class="chart-bar" />
+                            <!-- Mar: 7.0 -->
+                            <rect x="170" y="10" width="40" height="140" rx="8" class="chart-bar" />
+                            <!-- Abril: 6.0 -->
+                            <rect x="230" y="30" width="40" height="120" rx="8" class="chart-bar" />
+                            <!-- Maio: 4.5 -->
+                            <rect x="290" y="60" width="40" height="90" rx="8" class="chart-bar" />
                         </svg>
                     </div>
                     <!-- X-axis Labels (HTML for better positioning) -->
@@ -294,34 +297,34 @@
                     <h2 class="card-title" style="margin-bottom: 5px;">Tendência de Umidade</h2>
                     <div class="chart-subtitle">%</div>
                     <div class="chart-container">
-                        <svg viewBox="0 0 350 130" class="trend-chart" preserveAspectRatio="none">
+                        <svg viewBox="0 0 350 160" class="trend-chart" preserveAspectRatio="none">
                             <!-- Horizontal Grids (0 to 100 step 20) -->
                             <line x1="40" y1="10" x2="340" y2="10" stroke="var(--chart-grid)" stroke-width="1" />
-                            <line x1="40" y1="34" x2="340" y2="34" stroke="var(--chart-grid)" stroke-width="1" />
-                            <line x1="40" y1="58" x2="340" y2="58" stroke="var(--chart-grid)" stroke-width="1" />
-                            <line x1="40" y1="82" x2="340" y2="82" stroke="var(--chart-grid)" stroke-width="1" />
-                            <line x1="40" y1="106" x2="340" y2="106" stroke="var(--chart-grid)" stroke-width="1" />
-                            <line x1="40" y1="130" x2="340" y2="130" stroke="var(--chart-grid)" stroke-width="1" />
+                            <line x1="40" y1="38" x2="340" y2="38" stroke="var(--chart-grid)" stroke-width="1" />
+                            <line x1="40" y1="66" x2="340" y2="66" stroke="var(--chart-grid)" stroke-width="1" />
+                            <line x1="40" y1="94" x2="340" y2="94" stroke="var(--chart-grid)" stroke-width="1" />
+                            <line x1="40" y1="122" x2="340" y2="122" stroke="var(--chart-grid)" stroke-width="1" />
+                            <line x1="40" y1="150" x2="340" y2="150" stroke="var(--chart-grid)" stroke-width="1" />
 
                             <!-- Y-axis Labels -->
                             <text x="30" y="14" class="chart-text" text-anchor="end">100</text>
-                            <text x="30" y="38" class="chart-text" text-anchor="end">80</text>
-                            <text x="30" y="62" class="chart-text" text-anchor="end">60</text>
-                            <text x="30" y="86" class="chart-text" text-anchor="end">40</text>
-                            <text x="30" y="110" class="chart-text" text-anchor="end">20</text>
-                            <text x="30" y="134" class="chart-text" text-anchor="end">0</text>
+                            <text x="30" y="42" class="chart-text" text-anchor="end">80</text>
+                            <text x="30" y="70" class="chart-text" text-anchor="end">60</text>
+                            <text x="30" y="98" class="chart-text" text-anchor="end">40</text>
+                            <text x="30" y="126" class="chart-text" text-anchor="end">20</text>
+                            <text x="30" y="154" class="chart-text" text-anchor="end">0</text>
 
-                            <!-- Data Line (Example data points roughly matching the image) -->
+                            <!-- Data Line (Example data points) -->
                             <!-- Values: 50, 45, 60, 70, 90 -->
-                            <!-- X coords: 70, 130, 190, 250, 310 -->
-                            <path class="chart-line" d="M70 70 L130 76 L190 58 L250 46 L310 22" />
+                            <!-- Y = 150 - (value/100 * 140) -->
+                            <path class="chart-line" d="M70 80 L130 87 L190 66 L250 52 L310 24" />
 
                             <!-- Data Points -->
-                            <circle cx="70" cy="70" r="4" class="chart-point" />
-                            <circle cx="130" cy="76" r="4" class="chart-point" />
-                            <circle cx="190" cy="58" r="4" class="chart-point" />
-                            <circle cx="250" cy="46" r="4" class="chart-point" />
-                            <circle cx="310" cy="22" r="4" class="chart-point" />
+                            <circle cx="70" cy="80" r="4" class="chart-point" />
+                            <circle cx="130" cy="87" r="4" class="chart-point" />
+                            <circle cx="190" cy="66" r="4" class="chart-point" />
+                            <circle cx="250" cy="52" r="4" class="chart-point" />
+                            <circle cx="310" cy="24" r="4" class="chart-point" />
                         </svg>
                     </div>
                     <!-- X-axis Labels -->
@@ -348,32 +351,8 @@
                 <!-- Gerência Sensores -->
                 <div class="section-container">
                     <h3 class="section-title">GERÊNCIA SENSORES</h3>
-                    <div class="card sensor-card">
-                        <div class="sensor-info">
-                            <div class="sensor-icon-bg">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="#2E7D32"><path d="M12,2L4.5,20.29L5.21,21L12,18L18.79,21L19.5,20.29L12,2Z"/></svg>
-                            </div>
-                            <div class="sensor-text">
-                                <span class="sensor-name">Sensor A</span>
-                                <span class="sensor-id">ID: SS-01</span>
-                            </div>
-                        </div>
-                        <div class="sensor-status">
-                            <div class="battery-status">
-                                <svg width="24" height="12" viewBox="0 0 24 12" fill="none">
-                                    <rect x="0.5" y="0.5" width="20" height="11" rx="1.5" stroke="#B8B8B8"/>
-                                    <rect x="2" y="2" width="14" height="8" rx="1" fill="#6BC46D"/>
-                                    <path d="M21.5 4V8" stroke="#B8B8B8" stroke-width="2" stroke-linecap="round"/>
-                                </svg>
-                                <span>80%</span>
-                            </div>
-                            <div class="signal-status">
-                                <div class="signal-bar bar-1 active"></div>
-                                <div class="signal-bar bar-2 active"></div>
-                                <div class="signal-bar bar-3 active"></div>
-                                <div class="signal-bar bar-4 active"></div>
-                            </div>
-                        </div>
+                    <div id="sensor-list-container">
+                        <!-- Sensors will be injected dynamically -->
                     </div>
                     <button id="btn-add-sensor" class="btn-bege btn-full">+ ADICIONAR NOVO SENSOR</button>
                 </div>
@@ -405,7 +384,7 @@
                     <div class="card alert-master-card">
                         <span>Alertas Críticos (pH e Compactação)</span>
                         <label class="switch-ios">
-                            <input type="checkbox" checked>
+                            <input type="checkbox" id="alert-master" checked>
                             <span class="slider-ios"></span>
                         </label>
                     </div>
@@ -414,26 +393,26 @@
                             <div class="card alert-mini-card">
                                 <span>pH</span>
                                 <label class="switch-ios">
-                                    <input type="checkbox" checked>
+                                    <input type="checkbox" id="alert-ph" checked>
                                     <span class="slider-ios"></span>
                                 </label>
                             </div>
                             <div class="card alert-input-card">
                                 <span>pH</span>
-                                <div class="input-box">4.5</div>
+                                <div class="input-box" id="threshold-ph" contenteditable="true">4.5</div>
                             </div>
                         </div>
                         <div class="alert-row">
                             <div class="card alert-mini-card">
                                 <span>Umidade</span>
                                 <label class="switch-ios">
-                                    <input type="checkbox">
+                                    <input type="checkbox" id="alert-humidity">
                                     <span class="slider-ios"></span>
                                 </label>
                             </div>
                             <div class="card alert-input-card">
                                 <span>Umidade</span>
-                                <div class="input-box empty"></div>
+                                <div class="input-box empty" id="threshold-humidity" contenteditable="true">80</div>
                             </div>
                         </div>
                     </div>
@@ -454,6 +433,21 @@
                 </div>
             </section>
         </main>
+    </div>
+
+    <!-- Modal Adicionar Sensor -->
+    <div id="modal-sensor" class="modal">
+        <div class="modal-content">
+            <h3 class="section-title">ADICIONAR NOVO SENSOR</h3>
+            <div class="form-group">
+                <label class="form-label">Nome do Sensor</label>
+                <input type="text" id="new-sensor-name" class="form-input" placeholder="Ex: Sensor Área Norte">
+            </div>
+            <div class="modal-actions" style="display: flex; gap: 10px; margin-top: 20px;">
+                <button id="btn-cancel-sensor" class="btn-bege" style="flex: 1; height: 48px; border-radius: 8px; border: none; font-weight: 700; cursor: pointer;">CANCELAR</button>
+                <button id="btn-save-sensor" class="btn-primary-green" style="flex: 2; height: 48px; border-radius: 8px; cursor: pointer;">SALVAR SENSOR</button>
+            </div>
+        </div>
     </div>
 
     <script src="dashboard.js"></script>

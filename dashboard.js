@@ -36,7 +36,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (phValue && phNeedle) {
             const ph = (Math.random() * 1 + 5.8).toFixed(1);
             phValue.textContent = ph;
-            const rotation = (ph - 5) * 40; 
+            // Map 0-7 pH to 0-180 degrees, ensuring it stays within the arc
+            const rotation = Math.min((ph / 7) * 180, 180); 
             phNeedle.setAttribute('transform', `rotate(${rotation} 50 45)`);
         }
         
@@ -151,6 +152,10 @@ document.addEventListener('DOMContentLoaded', () => {
         btnSave.addEventListener('click', () => {
             btnSave.textContent = 'SALVANDO...';
             btnSave.style.opacity = '0.7';
+            
+            // Salva as configurações de alertas
+            saveAlertSettings();
+
             setTimeout(() => {
                 btnSave.textContent = 'ALTERAÇÕES SALVAS!';
                 btnSave.style.backgroundColor = '#2E7D32';
@@ -199,7 +204,45 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnDownloadPdf = document.getElementById('btn-download-pdf');
     if (btnDownloadPdf) {
         btnDownloadPdf.addEventListener('click', () => {
-            alert('Download iniciado! O seu arquivo PDF de relatório está sendo baixado.');
+            const element = document.getElementById('report-preview');
+            const reportName = document.getElementById('preview-name').textContent;
+            
+            btnDownloadPdf.textContent = 'PROCESSANDO...';
+            btnDownloadPdf.disabled = true;
+
+            html2canvas(element, {
+                scale: 2,
+                backgroundColor: "#FFFFFF",
+                logging: false,
+                useCORS: true
+            }).then(canvas => {
+                const imgData = canvas.toDataURL('image/png');
+                const { jsPDF } = window.jspdf;
+                const pdf = new jsPDF('p', 'mm', 'a4');
+                
+                const imgProps = pdf.getImageProperties(imgData);
+                const pdfWidth = pdf.internal.pageSize.getWidth() - 20;
+                const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+                
+                pdf.setFontSize(18);
+                pdf.setTextColor(46, 125, 50);
+                pdf.text("Sensor Soil - Relatório de Monitoramento", 10, 20);
+                
+                pdf.setFontSize(10);
+                pdf.setTextColor(100, 100, 100);
+                pdf.text(`Gerado em: ${new Date().toLocaleString('pt-BR')}`, 10, 28);
+                
+                pdf.addImage(imgData, 'PNG', 10, 35, pdfWidth, pdfHeight);
+                pdf.save(`${reportName.replace(/\s+/g, '_')}.pdf`);
+                
+                btnDownloadPdf.innerHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg> BAIXAR PDF`;
+                btnDownloadPdf.disabled = false;
+            }).catch(err => {
+                console.error(err);
+                alert('Erro ao gerar PDF. Tente novamente.');
+                btnDownloadPdf.textContent = 'BAIXAR PDF';
+                btnDownloadPdf.disabled = false;
+            });
         });
     }
 
@@ -218,16 +261,111 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Configurações - Adicionar Sensor
+    // --- Sensor Management ---
+    const sensorListContainer = document.getElementById('sensor-list-container');
+    const modalSensor = document.getElementById('modal-sensor');
     const btnAddSensor = document.getElementById('btn-add-sensor');
+    const btnCancelSensor = document.getElementById('btn-cancel-sensor');
+    const btnSaveSensor = document.getElementById('btn-save-sensor');
+    
+    let sensors = JSON.parse(localStorage.getItem('ss_sensors')) || [
+        { name: 'Sensor A', id: 'SS-01', battery: '80%', signal: 4 }
+    ];
+
+    function saveSensors() {
+        localStorage.setItem('ss_sensors', JSON.stringify(sensors));
+    }
+
+    function renderSensors() {
+        if (!sensorListContainer) return;
+        sensorListContainer.innerHTML = '';
+        sensors.forEach((sensor, index) => {
+            const card = document.createElement('div');
+            card.className = 'card sensor-card';
+            card.style.display = 'flex';
+            card.style.justifyContent = 'space-between';
+            card.style.alignItems = 'center';
+            card.style.padding = '15px 20px';
+            card.style.marginBottom = '12px';
+
+            card.innerHTML = `
+                <div class="sensor-info" style="display: flex; align-items: center; gap: 12px;">
+                    <div class="sensor-icon-bg" style="width: 40px; height: 40px; background-color: #f0f0f0; border-radius: 50%; display: flex; justify-content: center; align-items: center;">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="#2E7D32"><path d="M12,2L4.5,20.29L5.21,21L12,18L18.79,21L19.5,20.29L12,2Z"/></svg>
+                    </div>
+                    <div class="sensor-text" style="display: flex; flex-direction: column;">
+                        <span class="sensor-name" style="font-size: 1rem; font-weight: 700;">${sensor.name}</span>
+                        <span class="sensor-id" style="font-size: 0.75rem; color: #777;">ID: ${sensor.id}</span>
+                    </div>
+                </div>
+                <div class="sensor-status" style="display: flex; align-items: center; gap: 15px;">
+                    <div class="battery-status" style="display: flex; align-items: center; gap: 6px; font-size: 0.9rem; font-weight: 600;">
+                        <svg width="24" height="12" viewBox="0 0 24 12" fill="none">
+                            <rect x="0.5" y="0.5" width="20" height="11" rx="1.5" stroke="#B8B8B8"/>
+                            <rect x="2" y="2" width="${(parseInt(sensor.battery)/100)*14}" height="8" rx="1" fill="#6BC46D"/>
+                            <path d="M21.5 4V8" stroke="#B8B8B8" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                        <span>${sensor.battery}</span>
+                    </div>
+                    <button class="btn-delete-sensor" data-index="${index}" style="background: none; border: none; color: #ff4444; cursor: pointer; padding: 5px; display: flex; align-items: center;">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                    </button>
+                </div>
+            `;
+            sensorListContainer.appendChild(card);
+        });
+
+        // Add delete listeners
+        document.querySelectorAll('.btn-delete-sensor').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const index = e.currentTarget.getAttribute('data-index');
+                sensors.splice(index, 1);
+                saveSensors();
+                renderSensors();
+            });
+        });
+    }
+
     if (btnAddSensor) {
         btnAddSensor.addEventListener('click', () => {
-            const id = prompt('Digite o ID do novo sensor a ser adicionado:');
-            if (id) {
-                alert(`Sensor ${id} emparelhado e adicionado com sucesso ao seu sistema.`);
+            modalSensor.classList.add('active');
+        });
+    }
+
+    if (btnCancelSensor) {
+        btnCancelSensor.addEventListener('click', () => {
+            modalSensor.classList.remove('active');
+        });
+    }
+
+    if (btnSaveSensor) {
+        btnSaveSensor.addEventListener('click', () => {
+            const nameInput = document.getElementById('new-sensor-name');
+            const name = nameInput.value.trim();
+            
+            if (name) {
+                // Gera ID automático baseado no timestamp para garantir unicidade simples
+                const timestamp = new Date().getTime().toString().slice(-4);
+                const generatedId = `SS-${timestamp}`;
+
+                sensors.push({
+                    name: name,
+                    id: generatedId,
+                    battery: '100%',
+                    signal: 4
+                });
+                saveSensors();
+                renderSensors();
+                modalSensor.classList.remove('active');
+                nameInput.value = '';
+            } else {
+                alert('Por favor, insira o nome do sensor.');
             }
         });
     }
+
+    // Initial render
+    renderSensors();
 
     // Configurações - Limpar Histórico
     const btnClearHistory = document.getElementById('btn-clear-history');
@@ -244,9 +382,73 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnCsv = document.querySelector('.btn-csv');
     if (btnCsv) {
         btnCsv.addEventListener('click', () => {
-            alert('Gerando planilhas de dados. O download do arquivo .CSV iniciará em instantes.');
+            downloadCSV();
         });
     }
+
+    function downloadCSV() {
+        const data = [
+            ['Data', 'pH', 'Umidade (%)', 'Temperatura (C)'],
+            ['2026-05-10', '6.2', '85', '24'],
+            ['2026-05-11', '6.1', '82', '25'],
+            ['2026-05-12', '6.3', '88', '23'],
+            ['2026-05-13', (Math.random() * 1 + 5.8).toFixed(1), Math.floor(Math.random() * 10 + 82), '24']
+        ];
+        
+        let csvContent = "data:text/csv;charset=utf-8," 
+            + data.map(e => e.join(",")).join("\n");
+
+        const encodedUri = encodeURI(csvContent);
+        const link = document.createElement("a");
+        link.setAttribute("href", encodedUri);
+        link.setAttribute("download", `sensor_soil_data_${new Date().getTime()}.csv`);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+
+    // --- Alert Systems ---
+    function loadAlertSettings() {
+        const settings = JSON.parse(localStorage.getItem('ss_alert_settings')) || {
+            master: true,
+            ph: true,
+            humidity: false,
+            phThreshold: '4.5',
+            humidityThreshold: '80'
+        };
+
+        const masterCheck = document.getElementById('alert-master');
+        const phCheck = document.getElementById('alert-ph');
+        const humidityCheck = document.getElementById('alert-humidity');
+        const phThreshold = document.getElementById('threshold-ph');
+        const humidityThreshold = document.getElementById('threshold-humidity');
+
+        if (masterCheck) masterCheck.checked = settings.master;
+        if (phCheck) phCheck.checked = settings.ph;
+        if (humidityCheck) humidityCheck.checked = settings.humidity;
+        if (phThreshold) phThreshold.textContent = settings.phThreshold;
+        if (humidityThreshold) humidityThreshold.textContent = settings.humidityThreshold;
+    }
+
+    function saveAlertSettings() {
+        const masterCheck = document.getElementById('alert-master');
+        const phCheck = document.getElementById('alert-ph');
+        const humidityCheck = document.getElementById('alert-humidity');
+        const phThreshold = document.getElementById('threshold-ph');
+        const humidityThreshold = document.getElementById('threshold-humidity');
+
+        const settings = {
+            master: masterCheck ? masterCheck.checked : true,
+            ph: phCheck ? phCheck.checked : true,
+            humidity: humidityCheck ? humidityCheck.checked : false,
+            phThreshold: phThreshold ? phThreshold.textContent.trim() : '4.5',
+            humidityThreshold: humidityThreshold ? humidityThreshold.textContent.trim() : '80'
+        };
+        localStorage.setItem('ss_alert_settings', JSON.stringify(settings));
+    }
+
+    // Carrega configurações iniciais
+    loadAlertSettings();
 
     // Initial render for active view
     if (document.getElementById('monitoring') && document.getElementById('monitoring').classList.contains('active')) {

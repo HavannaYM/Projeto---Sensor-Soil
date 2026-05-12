@@ -750,6 +750,10 @@ input:checked+.slider-ios:before {
     fill: var(--chart-line);
 }
 
+.chart-bar {
+    fill: #FFD699;
+}
+
 .chart-text {
     font-size: 12px;
     fill: var(--text-dark);
@@ -768,7 +772,7 @@ input:checked+.slider-ios:before {
 }
 
 /* Responsiveness for small mobile screens */
-@media (max-width: 400px) {
+@media (max-width: 450px) {
     .main-header {
         padding: 15px 10px;
         height: 90px;
@@ -799,6 +803,35 @@ input:checked+.slider-ios:before {
         padding: 8px 2px;
     }
 
+    .filters-card {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+        padding: 15px;
+    }
+
+    .filter-group {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .filter-label {
+        font-size: 0.85rem;
+        margin-bottom: 0;
+    }
+
+    .filter-select {
+        flex: 0 0 65%;
+    }
+
+    .chart-x-axis {
+        margin-left: 48px;
+        margin-right: 18px;
+        font-size: 11px;
+    }
+
     .nav-item svg {
         width: 24px;
         height: 24px;
@@ -816,4 +849,46 @@ input:checked+.slider-ios:before {
     .section-title {
         font-size: 0.8rem;
     }
+}
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    align-items: center;
+    justify-content: center;
+}
+
+.modal.active {
+    display: flex;
+}
+
+.modal-content {
+    background-color: var(--card-bg);
+    padding: 30px;
+    border-radius: 16px;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    animation: modalIn 0.3s ease-out;
+}
+
+@keyframes modalIn {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+/* Dynamic Sensor List Styles */
+#sensor-list-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 12px;
 }
